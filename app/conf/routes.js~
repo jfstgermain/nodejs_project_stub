@@ -1,0 +1,14 @@
+module.exports.registerRoutes = function(app, mongoose){
+    var fs = require("fs"), 
+    files = fs.readdirSync("./app/routes");
+    console.log("TESSSSSSSSSSSSSST" + files.length);
+	for (var index in files) {
+	  console.log("Registering route: " + files[index] + "." + (files[index]).endsWith('.js'));
+		// If [ it's a javascript file ] Then [ process the routes ]
+		if (files[index].endsWith(".js")) {
+		  console.log("Registering route: " + files[index]);
+			require("../routes/" + files[index]).registerRoutes(app, mongoose);
+		}
+	}
+};
+

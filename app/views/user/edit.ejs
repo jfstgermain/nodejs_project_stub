@@ -1,0 +1,42 @@
+<!-- Side edit profile menu -->
+
+			<div id="left_sidebar">
+				<ul id="profile_categories">
+					<li>
+						Basic Information
+					</li>
+					<li>Aliases</li>
+					<li>
+						Pictures
+					</li>
+				</ul>
+			</div>
+			<div class="myform stylized">
+				<form id="form" name="form" method="post" action="/user">
+					<h1>Register as an official pervert!</h1>
+					<p>
+						Fill out this form and you're ready to go for some serious fun
+					</p>
+					<label>
+						Main ID
+						<span class="small">This is the identifier you'll use to connect. </span>
+					</label>
+					<input name="name" id="name" type="text">
+					<label>
+						Email
+						<span class="small">Add a valid address</span>
+					</label>
+					<input name="email" id="email" type="text">
+					<label>
+						Password
+						<span class="small">Min. size 6 chars</span>
+					</label>
+					<input name="password" id="password" type="text">
+					<button type="submit">
+						Sign-up
+					</button>
+				</form>
+			</div>
+			</br>
+			</br>
+			<%- partial('../upload/form') %>

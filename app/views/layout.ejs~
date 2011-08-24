@@ -1,0 +1,189 @@
+<!doctype html>  
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	
+	<title><%- title %></title>
+	<meta name="description" content="">
+	<meta name="author" content="">
+	
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="shortcut icon" href="/favicon.ico">
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+	<!--
+	<link rel="stylesheet" href="/stylesheets/style.css?v=2">
+	-->
+	<link rel="stylesheet" href="/stylesheets/style_blemish.css?v=2">
+	<link rel="stylesheet" href="/stylesheets/form.css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.js"></script>
+	<script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
+
+	<!-- scripts concatenated and minified via ant build script-->
+	<script src="/javascripts/plugins.js"></script>
+	<script src="/javascripts/script.js"></script>
+	<!-- end concatenated and minified scripts-->
+	
+	
+	<!--[if lt IE 7 ]>
+	<script src="/javascripts/libs/dd_belatedpng.js"></script>
+	<script> DD_belatedPNG.fix('img, .png_bg'); </script>
+	<![endif]-->
+	
+	<!-- yui profiler and profileviewer - remove for production -->
+	<script src="/javascripts/profiling/yahoo-profiling.min.js"></script>
+	<script src="/javascripts/profiling/config.js"></script>
+	<!-- end profiling code -->
+	<script src="http://www.google.com/jsapi" language="javascript" type="text/javascript"></script> 
+	<script language="javascript" type="text/javascript" > 
+		google.load("swfobject", "2.2");
+	</script> 
+	
+	
+	<!-- change the UA-XXXXX-X to be your site's ID -->
+	<script>
+	var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+	(function(d, t) {
+		var g = d.createElement(t),
+		s = d.getElementsByTagName(t)[0];
+		g.async = true;
+		g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		s.parentNode.insertBefore(g, s);
+		})(document, 'script');
+	</script>
+
+	<script language="javascript" type="text/javascript" >
+		// var sid = "<= sid %>";
+	</script>
+	<script src="/javascripts/libs/modernizr-1.6.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>	
+	<script src="/javascripts/libs/jquery.form.js"></script>	
+	<script src="/javascripts/app/feed/index.js"></script> <!-- TODO: need to be moved in feed -->
+	<script src="/javascripts/libs/date.format.js"></script>
+	<script src="/javascripts/jquery/plugins/cookie/jquery.cookie.js"></script>
+	<%- renderScriptTags(scriptSources) %>
+</head>
+
+<body>
+	<div id="wrapper">
+	<div id="header-wrapper">
+		<div id="header">
+			<div id="logo">
+				<h1><a href="#"><span>meet</span>me</a></h1>
+			</div>
+			<div id="menu">
+				<ul>
+					<li class="current_page_item"><a href="#">Home</a></li>
+					<li><a href="/place/new">Spots</a></li>
+					<li><a href="#">Account</a></li>
+					<li><a href="#">Take a Tour</a></li>	
+					<li><a href="#">Logout</a></li>				
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- end #header -->
+	<div id="page">
+		<div id="content">
+	<!--	
+			<div id="flvplayer" class="video-container">
+								You need the latest version of Adobe Flash Player to view this video. <a href="http://www.adobe.com/go/getflashplayer">Click here to download.</a><br>
+					You see this message either because your Flash Player is outdated or because you disabled JavaScript in your browser.
+				                <script type="text/javascript">
+					var ssig_enabled = true;
+					var categoryName = 'Asian';					var flashvars = {};
+										flashvars.autoplay = "false";
+					flashvars.autoreplay = "false";
+					flashvars.video_url = "http%3A%2F%2Fcdn1.public.tube8.com%2F1103%2F15%2F4d7f917e76ae7%2F4d7f917e76ae7.flv%3Fsr%3D404%26int%3D307200b%26nvb%3D20110421021512%26nva%3D20110421041512%26hash%3D07b742b32b112a01deede";
+					flashvars.postroll_url = "http://cdn1.static.tube8.phncdn.com/swf/related_gay.swf";
+					flashvars.options = "http://www.tube8.com/";
+					flashvars.related_url = "http://www.tube8.com/videoplayer/731151/4375180/1/";
+					flashvars.image_url = "http://cdn1.image.tube8.phncdn.com/1103/15/4d7f917e76ae7/240x180/11.jpg";
+					flashvars.link_url = "http://www.tube8.com/share/making-love-after-doing-gym/731151/";
+					flashvars.video_title = "Making+love+after+doing+gym";
+					
+					var params = {};
+					params.allowfullscreen = "true";
+					params.allowScriptAccess = "always";
+					params.wmode = "transparent";
+
+					
+					swfobject.embedSWF('http://cdn1.static.tube8.phncdn.com/swf/player.swf?cache=022', "flvplayer", "608", "481", '9.0.0', 'http://www.tube8.com/swf/expressInstall.swf', flashvars, params, {});
+					                </script>
+				</div>
+<div style="width:600px; height:473px" id="flash_holder"></div>
+ 
+        <script type="text/javascript"> 
+			var so_s = new SWFObject("http://cdn1.static.xtube.com/scenes_player.swf?v=2063", "flash_sender", "100%", "100%", "9");
+			so_s.addParam("quality", "high");
+			so_s.addParam("scale", "noscale");
+			so_s.addParam("swLiveConnect", "true");
+			so_s.addParam("allowFullScreen", "true");
+			so_s.addPara,("allowScriptAccess", "always")
+			so_s.addParam("wmode", "opaque");
+ 
+			so_s.addVariable("en_flash_debug_mode", 0);
+ 
+			so_s.addVariable("en_flash_show_overlay", "false");
+			so_s.addVariable("en_flash_overlay_xml_path", "");
+			so_s.addVariable("en_flash_show_adverticement_type", "5");
+			so_s.addVariable("en_flash_lib_path", "http://cdn1.static.xtube.com/library.swf?v=2063");
+			so_s.addVariable("h", "");
+			so_s.addVariable("swfURL", "");
+			so_s.addVariable("wall_idx", "111_1");
+			so_s.addVariable("sid", "0");
+			so_s.addVariable("user_id", "xtubehouse");
+			so_s.addVariable("owner_u", "xtubehouse");
+			so_s.addVariable("idx", "");
+			so_s.addVariable("from", "");
+			so_s.addVariable("sex_type", "S");
+			so_s.addVariable("video_id", "nS6YmVTM1TL");
+			so_s.addVariable("clip_id", "5dvEG7CvKp_");
+			so_s.addVariable("content_type", "dvd");
+			so_s.addVariable("preview_flag", "");
+			so_s.addVariable("preview_video_id", "eWRUmlGvyL0");
+			so_s.addVariable("preview_clip_id", "zYPCNW1Xnt-");
+ 
+			so_s.write("flash_holder");
+		</script> 
+	-->
+			<%- messages() %>
+			<%- body %>
+		</div>
+		<!-- end #content -->
+		<div id="sidebar">
+			<ul>
+				<li>
+					<h2>Search</h2>
+					<div id="search" >
+						<form method="get" action="#">
+							<div>
+								<input type="text" name="s" id="search-text" value="" />
+								<input type="submit" id="search-submit" value="GO" />
+							</div>
+						</form>
+					</div>
+					<div style="clear: both;">&nbsp;</div>
+				</li>
+				<li>
+					<h2>Online P</h2>
+					<ul>
+						<li><a href="#">User 1</a></li>
+						<li><a href="#">User 5</a></li>
+						<li><a href="#">User 3</a></li>
+						<li><a href="#">User 6</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<!-- end #sidebar -->
+		<div style="clear: both;">&nbsp;</div>
+	</div>
+</div>
+</body>
+</html>

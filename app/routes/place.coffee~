@@ -1,0 +1,42 @@
+module.exports.registerRoutes = (app, mongoose) ->
+	Place = mongoose.model "Place"
+	###
+	function createPlace(req, res, next) {
+	var t = req.body.txt_message.split("\n");
+	var params = {streamId: "pubsub", dateCreated: new Date()};
+
+	if (t.length > 1) {
+	params.title = t.shift();
+	params.body = t.join('<br />');
+	} else {
+	params.title = t.join(' ');
+	params.body = '';
+	}
+
+	req.post = new Place(params);
+	req.post.save();
+
+	next();
+	}
+	###
+
+	# Route for '/place/routeName'
+	app.get "/place/new.:format?", (req, res) ->
+		#req.flash('error', 'email sent');
+		res.render "place/edit", {
+			title: "Register a New Perv Spot",
+			scriptSources: ["/app/place/edit.js"]
+		}
+	
+	# Route for '/user/save'
+	app.post "/place/new.:format?", (req, res) ->
+		place = new Place(req.body.place)
+
+		place.save (err) ->
+			if (!err) 
+				console.log "New spot saved: #{place.name}"
+				res.render "index", {
+					title: "A Title"
+				}
+			else
+				req.flash "error", "Can't save!"

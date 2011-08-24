@@ -1,0 +1,29 @@
+formidable = require "formidable"
+#var form_upload = require('connect-form');
+
+module.exports.registerRoutes = (app, mongoose) ->
+	app.get "/upload.:format?", (req, res) ->
+		res.render "upload/index", {
+			title: "A Title"
+		}
+	
+	# upload route.
+	app.post "/upload.:format?", (req, res) ->
+		form = new formidable.IncomingForm()
+
+		form.uploadDir = "/home/jfstgermain/test"
+		form.parse req, (err, fields, files) ->
+			req.flash "info", "Uploaded file"
+			res.render "user/edit", {
+				title: "Edit member information"
+			}
+		###
+		 stream.addListener('complete', function() {
+		 res.sendHeader(200, {
+		 'Content-Type': 'text/plain'
+		 });
+		 res.sendBody('Thanks for playing!');
+		 res.finish();
+		 sys.puts("\n=> Done");
+		 });
+		 ###

@@ -1,0 +1,6 @@
+module.exports.registerRoutes = (app, mongoose) ->
+	# Routes
+	app.post "/login", (req, res) ->
+		res.render "index", {
+			title: "Express"
+		}

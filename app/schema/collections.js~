@@ -1,0 +1,207 @@
+module.exports.registerCollections = function(mongoose) {
+	var Tag = new mongoose.Schema({
+			name: { type: String, index: { unique: true } },
+			mentionCount: Number
+	});
+	
+	module.exports['Tag'] = mongoose.model('Tag', Tag);
+	
+	// The Alias collection
+	var Alias = new mongoose.Schema({
+		name: String,
+		preference: String,
+	});
+	
+	module.exports['Alias'] = mongoose.model('Alias', Alias);
+	
+	var Location = new mongoose.Schema({
+			country: String,
+			state: String,
+			city: String
+	});
+
+	//mongoose.model('User', User);
+	module.exports['Location'] = mongoose.model('Location', Location);	
+	
+	// The User collection
+	var User = new mongoose.Schema({
+		first_name: String,
+		last_name: String,
+		hashed_password: String,
+		email: {type: String, unique: true},
+		aliases: [Alias],
+		salt: String,
+		location: [Location]
+	});
+	/*
+	User.static({
+		loadUser: function() {
+			
+		}
+	});*/
+
+	//mongoose.model('User', User);
+	module.exports['User'] = mongoose.model('User', User);
+	
+	//------------------------------------------------------------
+
+	// The TypeCategory collection
+	var TypeCategory = new mongoose.Schema({
+		name: String,
+		description: String
+	});
+
+	module.exports['TypeCategory'] = mongoose.model('TypeCategory', TypeCategory);
+
+	// The Type collection
+	var Type = new mongoose.Schema({
+		name: String,
+		description: String,
+		category: mongoose.Schema.ObjectId /* TypeCategory ref */
+	});
+
+	module.exports['Type'] = mongoose.model('Type', Type);
+
+	// The Attachement collection
+	var Attachement = new mongoose.Schema({
+		name: String,
+		description: String,
+		type: mongoose.Schema.ObjectId, /* Type ref */
+		uri: String,
+		thumbnails: [String],
+		dateCreated: {type: Date, index: true}
+	});
+
+	module.exports['Attachement'] = mongoose.model('Attachement', Attachement);
+
+	// The Comment collection
+	var Comment = new mongoose.Schema({
+		subject: String,
+		content: String,
+		from: mongoose.Schema.ObjectId, /* User ref */
+		to: mongoose.Schema.ObjectId /* User ref */
+	});
+
+	module.exports['Comment'] = mongoose.model('Comment', Comment);
+
+	// The Place collection
+	var Place = new mongoose.Schema({
+		name: String,
+		description: String,
+		locationDescription: String,
+		locationUrl: String,
+		mentionCount: Number
+	});
+
+	module.exports['Place'] = mongoose.model('Place', Place);
+
+	// The Place collection
+	var Post = new mongoose.Schema({
+		author: mongoose.Schema.ObjectId, /* User ref */
+		title: String,
+		body: String,
+		publicComments: [Comment],
+		privateComments: [Comment],
+		streamId: String,
+		hashtags: [String],
+		places: [String],
+		dateCreated: {type: Date, index: true},
+	});
+	
+	Post.virtual('bodyHead').get(function() {
+		return "toto";
+	});
+
+	Post.method({
+		splitBody: function(length) {
+			var textTuple = {head: "", tail: ""};
+			var charcount = 0;
+			var tokens = this.body.split(" ");
+	
+			if (this.body.length > length) {
+				for (var i = 0; i < tokens.length && charcount <= length; i++) {
+					charcount = charcount + tokens[i].length;
+					textTuple.head += (" " + tokens.shift());
+				}
+	
+				textTuple.tail = tokens.join(" ");
+			} else {
+				textTuple.tail = this.body;
+			}
+	
+			return textTuple;
+		}
+	});
+	
+	/*
+	Post.virtual('body.head')
+  		.get( function () {
+    		return this.name.first + this.name.last;
+  		});
+	*/
+	module.exports['Post'] = mongoose.model('Post', Post);
+
+	// The Place collection
+	var FeedStream = new mongoose.Schema({
+		name: String,
+		posts: [Post]
+	});
+
+	module.exports['FeedStream'] = mongoose.model('FeedStream', FeedStream);
+
+	/*
+ 	* var crypto = require('crypto');
+
+ 	mongoose.model('User', {
+ 	properties: ['username', 'first_name', 'last_name', 'email', 'hashed_password', 'salt'],
+
+ 	indexes: [
+ 	[{ email: 1 }, { unique: true }]
+ 	],
+
+ 	getters: {
+ 	id: function() {
+ 	return this._id.toHexString();
+ 	},
+
+ 	password: function() { return this._password; }
+ 	},
+
+ 	setters: {
+ 	password: function(password) {
+ 	this._password = password;
+ 	this.salt = this.makeSalt();
+ 	this.hashed_password = this.encryptPassword(password);
+ 	}
+ 	},
+
+ 	methods: {
+ 	authenticate: function(plainText) {
+ 	return this.encryptPassword(plainText) === this.hashed_password;
+ 	},
+
+ 	makeSalt: function() {
+ 	return Math.round((new Date().valueOf() * Math.random())) + '';
+ 	},
+
+ 	encryptPassword: function(password) {
+ 	return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
+ 	},
+
+ 	isValid: function() {
+ 	// TODO: Better validation
+ 	return this.email && this.email.length > 0 && this.email.length < 255
+ 	&& this.password && this.password.length > 0 && this.password.length < 255;
+ 	},
+
+ 	save: function(okFn, failedFn) {
+ 	if (this.isValid()) {
+ 	this.__super__(okFn);
+ 	} else {
+ 	failedFn();
+ 	}
+ 	}
+ 	}
+ 	});
+ 	*/
+}

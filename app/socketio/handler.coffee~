@@ -1,0 +1,70 @@
+module.exports.registerSocketHandler = (app, mongoose, redis) ->
+  ejs = require "ejs"
+  fs = require "fs"
+  formatDate = require "./../modules/dateFormat.js"
+  viewsRoot = "#{__dirname}/../views"
+  parseCookie = require("connect").utils.parseCookie
+  Session = require("connect").middleware.session.Session
+
+  app.io.configure ->
+    app.io.set "authorization", (data, accept) ->
+      acceptMsg = ""
+      console.log "****************1"
+      # Bind ExpressJS session
+      # Note: This assumes that both socketIO server and express are hosted on the same domain.
+      # The session binding won't work otherwise.
+      if data.headers.cookie?
+        console.log "****************2"
+        data.sessionID = (parseCookie data.headers.cookie)["connect.sid"]
+        app.sessionStore.get data.sessionID, (err, session) ->
+          if err?
+            console.log "****************3"
+            acceptMsg = err.message
+          else
+            console.log "****************4 #{session.user.id}"
+            data.session = new Session data, session
+  
+      accept acceptMsg, true
+
+  app.io.sockets.on "connection", (socket) ->
+    hs = socket.handshake
+    user = hs.session.user
+    redisClient = redis.createClient 6379
+
+    # If [ user has hashtags defined ] Then [ listen to the corresponding channels for his location ]    
+    if user.favHashtags?.length > 0
+      redisClient.subscribe "#{user.location.pattern}.{#{user.favHashtags.join(',')}}"
+    # Else [ listen to everything in user's location ]
+    else
+      redisClient.subscribe "#{user.location.pattern}.*"
+
+    redisClient.on "message", (channel, message) ->
+      console.log "pubsub msg received:  #{message}"
+      message = JSON.parse message
+      ###
+       keep track of sent message ids in the user's session to avoid dups when a message is 
+       sent to more than one channed that the user might be registered to
+       keep only the last 150 sent message ids.
+       
+       Prolly not necessary using glob patterns.  dups are removed I think.  See below.
+
+      ###
+      mongoose.model(message.schema).findById(message.id, (err, post) ->
+        if not err? and post?
+          socket.emit "feed", ejs.render(fs.readFileSync("#{viewsRoot}/feed/_post.ejs", "utf8"), {
+            locals:{
+              post: post,
+              formatDate: formatDate
+            }
+          })
+        else
+          console.error "************************** ERROR: #{err}"
+      )
+    
+    # This is never invoked at the moment
+    # The client sends messages through an http post request and not through websockets.
+    socket.on "message", (message) ->
+      console.log "Client sent a message through websockets: #{json.parse message}"
+    
+    socket.on "disconnect", () ->
+      redisClient.quit()

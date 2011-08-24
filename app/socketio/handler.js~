@@ -1,0 +1,51 @@
+module.exports.registerSocketHandler = function(app, mongoose, redis) {
+	var ejs = require('ejs'),
+	fs = require('fs'),
+	formatDate = require('./../modules/dateFormat.js');
+	var viewsRoot = __dirname + "/../views";
+	
+	app.io.sockets.on('connection', function(socket) {
+		//const redisClient = redis.createClient(6380);
+		
+		const redisClient = redis.createClient(6380);
+		// figure out client's channel based on location
+		// 
+		redisClient.subscribe('pubsub');
+		/*
+		for (hashtag in client.favoriteHashTags) {
+			// I think it's one call with a list of channels
+			redisClient.subscribe(getLocationChannelPrefix() + hashtag);	
+		}
+		*/
+		
+
+		redisClient.on("message", function(channel, message) {
+			console.log("pubsub received ++++++++++++++++++++++" + message);
+			message = JSON.parse(message);
+			
+			// keep track of sent message ids in the user's session to avoid dups when a message is 
+			// sent to more than one channed that the user might be registered to
+			// keep only the last 150 sent message ids
+			
+			// if (!session.receivedMessageIds.contains(message.id)...
+			// session.receivedMessageIds = session.receivedMessageIds.tail(50)  
+			mongoose.model(message.schema).findById(message.id, function(err, post) {
+				console.log('****************************msgtoto');
+				socket.emit('feed', ejs.render(fs.readFileSync(viewsRoot + "/feed/_post.ejs", 'utf8'), {
+					locals: {
+						post: post,
+						formatDate: formatDate
+					}
+				}));
+			});
+		});
+		
+		socket.on('message', function(message) {
+			var msg = json.parse(message);
+		});
+		
+		socket.on('disconnect', function() {
+			redisClient.quit();
+		});
+	});
+}
