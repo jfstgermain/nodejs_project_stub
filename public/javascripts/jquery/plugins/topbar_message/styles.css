@@ -1,0 +1,18 @@
+body
+{
+    margin: 0px;
+    font-family: "Trebuchet MS", Arial, Sans-Serif;
+    font-size: 14px;
+}
+
+a
+{
+	color: #0066CC;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #CC0000;
+	text-decoration: underline;
+}

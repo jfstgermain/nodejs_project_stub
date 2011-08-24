@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>jQuery Topbar message Plugin Demo</title>
+	<script src="jquery.js" type="text/javascript"></script>
+	<script src="juery.topbar.js" type="text/javascript"></script>
+	<link href="styles.css" type="text/css" rel="stylesheet" />
+
+	<script type="text/javascript" language="javascript">
+		$(function () {
+
+			$("#demo01").click(function () {
+				$('#demo01-body').showTopbarMessage();
+			});
+
+			$("#demo02").click(function () {
+				$('#demo02-body').showTopbarMessage({ close: 2000 });
+			});
+
+			$("#demo03").click(function () {
+				$('#demo03-body').showTopbarMessage({ background: "#093", close: 2000 });
+			});
+
+			$("#demo04").click(function () {
+				$('#demo04-body').showTopbarMessage({ height: "150px", close: 2000 });
+			});
+		});	
+	</script>
+</head>
+<body style="margin-left: 25px;">
+	<h1>
+		<a href="http://www.dailycoding.com/">Dailycoding.com</a>
+	</h1>
+	<p>
+		<a href="http://www.dailycoding.com/">&lt back to article</a>
+	</p>
+	<hr />
+	<p>
+		<a href="javascript:void(0)" id="demo01">Demo 1 - Simple</a>
+	</p>
+<pre>$("#demo01").click(function () {
+	$('#demo01-body').showTopbarMessage();
+});</pre>
+	<div id="demo01-body" style="display:none;">
+		This is a simple demo
+		<span style="font-size: small">(click to close)</span>
+	</div>
+
+	<p>&nbsp;</p>
+	<p>
+		<a href="javascript:void(0)" id="demo02">Demo 2 - Automatic delayed close</a>
+	</p>
+	<pre>$("#demo02").click(function () {
+	$('#demo02-body').showTopbarMessage({ close: 2000 });
+});</pre>
+	<div id="demo02-body" style="display: none;">
+		Automatic delayed close demo
+	</div>
+
+	<p>&nbsp;</p>
+	<p>
+		<a href="javascript:void(0)" id="demo03">Demo 3 - Custom background</a>
+	</p>
+	<pre>$("#demo03").click(function () {
+	$('#demo03-body').showTopbarMessage({ background: "#093", close: 2000 });
+});</pre>
+	<div id="demo03-body" style="display: none;">
+		This is a custom background demo
+	</div>
+	
+	<p>&nbsp;</p>
+	<p>
+		<a href="javascript:void(0)" id="demo04">Demo 4 - Custom height</a>
+	</p>
+	<pre>$("#demo04").click(function () {
+	$('#demo04-body').showTopbarMessage({ height: "150px", close: 2000 });
+});</pre>
+	<div id="demo04-body" style="display: none;">
+		This is a custom height demo
+		<p>Some more text</p>
+		<p>..and some more</p>
+	</div>
+</body>
+</html>
