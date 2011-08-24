@@ -37,7 +37,7 @@ app.configure "development", ->
   app.use (req, res, next) ->
     User = mongoose.model "User"
     
-    User.findOne {email: 'jfstgermain@gmail.com'}, (err, user) ->
+    User.findOne {email: '*******@gmail.com'}, (err, user) ->
       if user?
         console.log "Added user #{user.email} to session"
         req.session.user = user
